@@ -1,0 +1,75 @@
+package tw.hui.servlet;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+
+
+@WebServlet("/Hui08")
+public class Hui08 extends HttpServlet {
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		response.setCharacterEncoding("UTF-8");
+		
+		String x, y, result, op;
+		x = y = result = op = "";
+		try {
+			String tempx = request.getParameter("x");
+			String tempy = request.getParameter("y");
+			String tempop = request.getParameter("op");
+			
+			int r = 0, r1 = 0;
+			switch (tempop) {
+			case "1":
+				r = Integer.parseInt(tempx) + Integer.parseInt(tempy);
+				break;
+			case "2":
+				r = Integer.parseInt(tempx) - Integer.parseInt(tempy);
+				break;
+			case "3":
+				r = Integer.parseInt(tempx) * Integer.parseInt(tempy);
+				break;
+			case "4":
+				r = Integer.parseInt(tempx) / Integer.parseInt(tempy);
+				r1 = Integer.parseInt(tempx) % Integer.parseInt(tempy);
+				break;
+			}
+			
+			result += r + (r1 > 0?(" ...... " + r1):"");
+			x = tempx; y = tempy; op = tempop;
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		// ---------------------------------------
+		response.setContentType("text/html; charset=UTF=8");
+		PrintWriter out = response.getWriter();
+		
+		BufferedInputStream bin = new BufferedInputStream(
+				new FileInputStream("C:\\Users\\a0985\\eclipse-workspace\\HuiWeb\\src\\main\\webapp\\Hui06.html"));
+		byte[] data = bin.readAllBytes();
+		String html = new String(data, Charset.defaultCharset());
+				
+		out.print(String.format(html, x, 
+				op.equals("1")?"selected":"",
+				op.equals("2")?"selected":"", 
+				op.equals("3")?"selected":"", 
+				op.equals("4")?"selected":"", 
+				y, result));
+		
+		response.flushBuffer();
+	}
+
+}
