@@ -53,14 +53,3 @@ public class GiftDAO {
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
