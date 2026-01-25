@@ -25,7 +25,7 @@ public class myCenter {
 	@OnOpen
 	public void onOpen(Session session) {
 		if (sessions.add(session)) {
-			//System.out.println("New Session..");
+			// System.out.println("New Session..");
 		}
 	}
 	
@@ -37,21 +37,34 @@ public class myCenter {
 			teacherSession = session;
 			System.out.println("Teacher Exist");
 		}else if (session == teacherSession) {
-			System.out.println("Teacher Drawing");
+			// System.out.println("Teacher Drawing");
 			for (Session userSession : sessions) {
 				try {
 					userSession.getBasicRemote().sendText(mesg);
-					System.out.println("Send Student");
+					// System.out.println("Send Student");
 				} catch (IOException e) {
 				}
 			}			
 		}
 	}
 	
+//	@OnClose
+//	public void onClose(Session session) {
+//		//System.out.println("onClose()");
+//		sessions.remove(session);
+//	}
+	
 	@OnClose
 	public void onClose(Session session) {
-		//System.out.println("onClose()");
-		sessions.remove(session);
+	    // 移除連線
+	    sessions.remove(session);
+	    
+	    // 【新增】如果是老師斷線，要把位置讓出來！
+	    if (session == teacherSession) {
+	        teacherSession = null;
+	        isExistTeacher = false;
+	        System.out.println("老師已離開，釋出權限");
+	    }
 	}
 	
 	@OnError
