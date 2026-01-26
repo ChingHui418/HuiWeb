@@ -13,6 +13,7 @@ import org.json.JSONObject;
 @WebServlet("/Hui32")
 public class Hui32 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		JSONObject obj = new JSONObject();
 		obj.put("x", 10).put("y", 3);
 		
