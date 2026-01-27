@@ -19,7 +19,7 @@
 				break;
 			case "4":
 				r = Integer.parseInt(x) / Integer.parseInt(y);
-				r = Integer.parseInt(x) % Integer.parseInt(y);
+				r1 = Integer.parseInt(x) % Integer.parseInt(y);
 				break;
 		}
 

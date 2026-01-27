@@ -6,14 +6,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 
 import java.io.IOException;
 
 @WebServlet("/Hui20")
-public class Hui20 extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-     
+public class Hui20 extends HttpServlet { 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// HttpSession session = request.getSession(false); // 沒有 -> null
 		HttpSession session = request.getSession(true); // 沒有 -> new
