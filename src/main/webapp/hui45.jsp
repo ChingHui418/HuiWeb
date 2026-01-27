@@ -1,16 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="tw.hui.apis.Member" %>
+    pageEncoding="UTF-8" import="tw.hui.apis.*"%>
 <%
 	Member member1 = new Member();
 	member1.setId(1L); 
 	member1.setEmail("brad@brad.tw");
 	member1.setName("Brad");
-%>	
+	pageContext.setAttribute("member1", member1);
+	
+	Bike bike = new Bike();
+	bike.upSpeed().upSpeed().upSpeed().upSpeed();
+	pageContext.setAttribute("b1", bike);
+%>	    
 <jsp:useBean id="member2" class="tw.hui.apis.Member"></jsp:useBean>
 <jsp:setProperty property="id" value="2" name="member2"/>
 <jsp:setProperty property="email" value="alex@alex.tw" name="member2"/>
 <jsp:setProperty property="name" value="Alex" name="member2"/>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,16 +22,10 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-		Member1: <%= member1.getId() %> : <%= member1.getEmail() %> : <%= member1.getName() %><br />
-		Member2: <jsp:getProperty property="id" name="member2"/> :
-		<jsp:getProperty property="email" name="member2"/> :
-		<jsp:getProperty property="name" name="member2"/><br />
-		<hr />
-		Member2: <%= member2.getId() %> : <%= member2.getEmail() %> : <%= member2.getName() %><br />
-		<hr />
-		<!-- 印出記憶體位置 -->
-		<hr />
-		Member1: <%= member1 %><br />
-		Member2: <%= member2 %><br />
+	${Math.random() }<br />
+	${Math.PI }<br />
+	${member2 }<br />
+	${member1 }<br />
+	${b1 }
 	</body>
 </html>
