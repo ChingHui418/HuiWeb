@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%
 	String x = request.getParameter("x");
+	int lottery = (Integer)request.getAttribute("lottery");
 %>
 
 <div>I am hui39 </div>
-<div><%= x %></div>
+<div>x = <%= x %></div>
+<div>lottery = <%= lottery %></div>
