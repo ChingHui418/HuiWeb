@@ -95,6 +95,6 @@ public class HuiUtils {
 	}
 	
 	public static int calcPages(int total, int rpp) {
-		return  (int)(Math.ceil(total * 1.0 / 10));
+		return (int)(Math.ceil(total * 1.0 / 10));
 	}
 }
