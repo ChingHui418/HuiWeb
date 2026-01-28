@@ -7,8 +7,6 @@ import java.util.TreeMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import netscape.javascript.JSObject;
-
 public class HuiUtils {
 	public static String calc(String x, String y, String op) {
 		try {
@@ -68,7 +66,7 @@ public class HuiUtils {
 						rows[0].getOrDefault("CompanyName", ""),
 						rows[0].getOrDefault("ContactName", "")
 					));
-			
+			double total = 0;
 			JSONArray details = new JSONArray();
 			for(SortedMap<String, String> row: rows) {
 				JSONObject obj = new JSONObject();
@@ -79,20 +77,24 @@ public class HuiUtils {
 				obj.put("price", row.getOrDefault("UnitPrice", ""));
 				obj.put("qty", row.getOrDefault("Quantity", ""));
 			
+				double price = 
+					Double.parseDouble(obj.get("price").toString());
+				int qty = 
+					Integer.parseInt(obj.get("qty").toString());
+				double sum = price * qty;
+				obj.put("sum", sum);
+				
+				total += sum;
 			}
 			
+			root.put("total", total);
 			root.put("details", details);
 		}
 		
 		return root.toString();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	public static int calcPages(int total, int rpp) {
+		return  (int)(Math.ceil(total * 1.0 / 10));
+	}
 }
