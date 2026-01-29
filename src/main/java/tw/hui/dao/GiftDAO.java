@@ -18,22 +18,32 @@ public class GiftDAO {
 			FROM gift
 			ORDER BY id
 			LIMIT ?, ?
-			""";
+			""";	
+	private static final String SQL_QUERY_KEY = """
+			SELECT id, name, feature, addr, tel, picurl
+			FROM gift
+			WHERE name LIKE ? OR feature LIKE ? OR addr LIKE ? OR tel LIKE ?
+			ORDER BY addr
+			""";	
 	
 	private int page, rpp;
+	
+	
+	public GiftDAO() {}
+	
 	public GiftDAO(int page, int rpp){
 		this.page = page;
 		this.rpp = rpp;
 	}
 	
-	public List<Gift> findAll() throws Exception {
+	public List<Gift> findAll() {
+		System.out.println("OK1111");
 		List<Gift> gifts = new ArrayList<Gift>();
 		try(Connection conn = DriverManager.getConnection(URL, USER, PASSWD);
-				PreparedStatement pstmt = conn.prepareStatement(SQL_FIND_ALL);
-				
-				) {
+			PreparedStatement pstmt = conn.prepareStatement(SQL_FIND_ALL);
+				){
 			System.out.println("OK333");
-			pstmt.setInt(1, (page - 1)*rpp);
+			pstmt.setInt(1, (page-1)*rpp);
 			pstmt.setInt(2, rpp);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -45,11 +55,43 @@ public class GiftDAO {
 				gift.setTel(rs.getString("tel"));
 				gift.setPicurl(rs.getString("picurl"));
 				gifts.add(gift);
-				
+			}
+			rs.close();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return gifts;
+	}
+	
+	public List<Gift> search(String keyword) throws Exception{
+		String k = (keyword == null) ? "" : keyword.trim();
+		String like = "%" + k + "%";
+		List<Gift> gifts = new ArrayList<Gift>();
+		try(Connection conn = DriverManager.getConnection(URL, USER, PASSWD);
+			PreparedStatement pstmt = conn.prepareStatement(SQL_QUERY_KEY)){
+			
+			pstmt.setString(1, like);
+			pstmt.setString(2, like);
+			pstmt.setString(3, like);
+			pstmt.setString(4, like);
+			
+			try(ResultSet rs = pstmt.executeQuery()){
+				while (rs.next()) {
+					Gift gift = new Gift();
+					gifts.add(gift);
+					
+					gift.setId(rs.getLong("id"));
+					gift.setName(rs.getString("name"));
+					gift.setFeature(rs.getString("feature"));
+					gift.setAddr(rs.getString("addr"));
+					gift.setTel(rs.getString("tel"));
+					gift.setPicurl(rs.getString("picurl"));
+				}
 			}
 		}
 		return gifts;
 	}
+	
 	
 	
 }
